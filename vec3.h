@@ -48,7 +48,7 @@ public:
         return std::sqrt(length_squared());
     }
 
-    double length_squared() cosnt
+    double length_squared() const
     {
         return e[0]*e[0] + e[1]*e[1] + e[2]*e[2];
     }
@@ -90,7 +90,7 @@ inline Vec3 operator*(double t, const Vec3 &v)
 }
 
 
-inline vec3 operator*(const Vec3 &v, double t)
+inline Vec3 operator*(const Vec3 &v, double t)
 {
     return t * v;
 }
