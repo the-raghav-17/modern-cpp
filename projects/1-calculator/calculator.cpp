@@ -6,10 +6,13 @@
 
 void Calculator::start()
 {
+    Operation operation{};
+    double    res {};
+
     while (read_input() != -1) {
-        // do the stuff
-        // for now, just print the details
-        print_details();
+        if (operation.operate(num1, num2, op_type, res) != -1) {
+            std::cout << "Result: " << res << '\n';
+        }
     }
 }
 
