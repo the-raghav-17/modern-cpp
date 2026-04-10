@@ -2,13 +2,13 @@
 #define OPERATION_H_
 
 
-enum class Op_type {add, subtract, multiply, divide};
+enum class Op_type {add, subtract, multiply, divide, nil};
 
 
-class Operation
+namespace Operation
 {
-public:
-    int operate(double num1, double num2, Op_type op_type, double &res);
+    void operate(double num1, Op_type op_type, double num2);
+    Op_type map_to_op(char op_char);
 };
 
 
