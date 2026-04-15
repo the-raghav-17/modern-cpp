@@ -12,8 +12,9 @@ enum class Op_type {add, subtract, multiply, divide, nil};
 namespace Operation
 {
     double operate(double num1, Op_type op_type, double num2);
-    Op_type map_to_op(char op_char);
+    Op_type map_char_to_op(char op_char);
 
+    // Exception type
     struct division_by_zero : std::runtime_error
     {
         division_by_zero():

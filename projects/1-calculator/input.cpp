@@ -15,7 +15,7 @@ int Input::read_input(double &num1, Op_type &op_type, double &num2)
     char op_char {};
     std::cout << "Select the operation(+ - * /) or 'q' to quit: ";
     std::cin  >> op_char;
-    if ((op_type = Operation::map_to_op(op_char)) == Op_type::nil) {
+    if ((op_type = Operation::map_char_to_op(op_char)) == Op_type::nil) {
         // TODO: error condition
     }
 

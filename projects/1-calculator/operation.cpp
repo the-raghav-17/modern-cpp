@@ -24,15 +24,15 @@ double Operation::operate(double num1, Op_type op_type, double num2)
             if (num2 == 0) {
                 throw Operation::division_by_zero{};
             }
-            res = num1 + num2;
+            res = num1 / num2;
             break;
     }
 
-    std::cout << "Result: " << res << '\n';
+    return res;
 }
 
 
-Op_type Operation::map_to_op(char op_char)
+Op_type Operation::map_char_to_op(char op_char)
 {
     switch (op_char) {
         case '+': return Op_type::add;
