@@ -40,12 +40,30 @@ int Input::read_double(double &num)
             if (!stream_is_empty()) {
                 // if stream still consists of some
                 // characters, then its an error
-                std::cin.clear();
-                Input::ignore_line();
+                Input::reset_cin();
                 std::cerr << "Enter a valid number: ";
                 continue;
             }
             return 0;
+        }
+        else {
+            // some non-number character was typed
+            // if its 'q' followed by newline then we
+            // need to return -1, else error
+
+            std::cin.clear();
+            char ch {};
+            std::cin >> ch;
+
+            // user typed 'q' and hit return
+            if (ch == 'q' && Input::stream_is_empty()) {
+                return -1;
+            }
+
+            // for rest of the case, its an error
+            Input::reset_cin();
+            std::cout << "Enter a valid number: ";
+
         }
     }
 }
@@ -53,7 +71,27 @@ int Input::read_double(double &num)
 
 int Input::read_operation(char &op_char)
 {
+    while (true) {
+        Input::reset_cin();
+        std::cin >> op_char;
 
+        if (std::cin.peek() != '\n') {
+            std::cerr << "Enter a valid choice: ";
+            continue;
+        }
+
+        switch (op_char) {
+            case '+': case '-': case '*': case '/':
+                return 0;
+
+            case 'q':    // typed 'q'
+                return -1;
+
+            default:    // typed invalid character
+                std::cerr << "Enter a valid choice: ";
+                continue;
+        }
+    }
 }
 
 
@@ -66,4 +104,11 @@ bool Input::stream_is_empty()
 void Input::ignore_line()
 {
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+
+void Input::reset_cin()
+{
+    Input::ignore_line();
+    std::cin.clear();
 }

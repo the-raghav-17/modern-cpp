@@ -15,6 +15,7 @@ private:
         int read_operation(char &op_char);
         bool stream_is_empty();
         void ignore_line();
+        void reset_cin();
 };
 
 
