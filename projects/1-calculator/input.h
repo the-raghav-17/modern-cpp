@@ -11,11 +11,11 @@ public:
         int read_input(double &num1, Op_type &op_type, double &num2);
 
 private:
-        int read_double(double &num);
-        int read_operation(char &op_char);
-        bool stream_is_empty();
-        void ignore_line();
-        void reset_cin();
+        int read_double(double &num) const;
+        int read_operation(char &op_char) const;
+        bool stream_is_empty() const;
+        void ignore_line() const;
+        void reset_cin() const;
 };
 
 

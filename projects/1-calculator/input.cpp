@@ -8,18 +8,18 @@
 int Input::read_input(double &num1, Op_type &op_type, double &num2)
 {
     std::cout << "Enter the first number(or 'q' to quit): ";
-    if (Input::read_double(num1) == -1) {
+    if (read_double(num1) == -1) {
         return -1;
     }
 
     std::cout << "Enter the second number(or 'q' to quit): ";
-    if (Input::read_double(num2) == -1) {
+    if (read_double(num2) == -1) {
         return -1;
     }
 
     char op_char {};
     std::cout << "Select the operation(+ - * /) or 'q' to quit: ";
-    if (Input::read_operation(op_char) == -1) {
+    if (read_operation(op_char) == -1) {
         return -1;
     }
     op_type = Operation::map_char_to_op(op_char);
@@ -28,7 +28,7 @@ int Input::read_input(double &num1, Op_type &op_type, double &num2)
 }
 
 
-int Input::read_double(double &num)
+int Input::read_double(double &num) const
 {
     // return -1 if user types 'q' else 0
 
@@ -40,7 +40,7 @@ int Input::read_double(double &num)
             if (!stream_is_empty()) {
                 // if stream still consists of some
                 // characters, then its an error
-                Input::reset_cin();
+                reset_cin();
                 std::cerr << "Enter a valid number: ";
                 continue;
             }
@@ -56,12 +56,12 @@ int Input::read_double(double &num)
             std::cin >> ch;
 
             // user typed 'q' and hit return
-            if (ch == 'q' && Input::stream_is_empty()) {
+            if (ch == 'q' && stream_is_empty()) {
                 return -1;
             }
 
             // for rest of the case, its an error
-            Input::reset_cin();
+            reset_cin();
             std::cout << "Enter a valid number: ";
 
         }
@@ -69,10 +69,10 @@ int Input::read_double(double &num)
 }
 
 
-int Input::read_operation(char &op_char)
+int Input::read_operation(char &op_char) const
 {
     while (true) {
-        Input::reset_cin();
+        reset_cin();
         std::cin >> op_char;
 
         if (std::cin.peek() != '\n') {
@@ -95,20 +95,20 @@ int Input::read_operation(char &op_char)
 }
 
 
-bool Input::stream_is_empty()
+bool Input::stream_is_empty() const
 {
     return (std::cin.eof() || std::cin.peek() == '\n');
 }
 
 
-void Input::ignore_line()
+void Input::ignore_line() const
 {
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 
-void Input::reset_cin()
+void Input::reset_cin() const
 {
-    Input::ignore_line();
+    ignore_line();
     std::cin.clear();
 }
