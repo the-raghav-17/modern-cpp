@@ -12,7 +12,9 @@ void Calculator::start()
     Op_type op_type {};
     double res {};
 
-    while (Input::read_input(num1, op_type, num2) != -1) {
+    Input input{};
+
+    while (input.read_input(num1, op_type, num2) != -1) {
         try {
             res = Operation::operate(num1, op_type, num2);
         }

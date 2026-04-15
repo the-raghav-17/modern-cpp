@@ -5,9 +5,16 @@
 #include "operation.h"
 
 
-namespace Input
+class Input
 {
-    int read_input(double &num1, Op_type &op_type, double &num2);
+public:
+        int read_input(double &num1, Op_type &op_type, double &num2);
+
+private:
+        int read_double(double &num);
+        int read_operation(char &op_char);
+        bool stream_is_empty();
+        void ignore_line();
 };
 
 
