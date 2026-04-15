@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-void Operation::operate(double num1, Op_type op_type, double num2)
+double Operation::operate(double num1, Op_type op_type, double num2)
 {
     double res {};
 
@@ -22,8 +22,7 @@ void Operation::operate(double num1, Op_type op_type, double num2)
 
         case Op_type::divide:
             if (num2 == 0) {
-                std::cerr << "Division by zero is invalid\n";
-                return;
+                throw Operation::division_by_zero{};
             }
             res = num1 + num2;
             break;
