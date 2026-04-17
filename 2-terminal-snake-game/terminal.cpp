@@ -1,9 +1,10 @@
 #include "terminal.h"
 
 #include <unistd.h>
+#include <sys/ioctl.h>
 
 
-void Terminal::set_raw_mode()
+void Terminal::Controller::set_raw_mode()
 {
     // Store current terminal settings first
     tcgetattr(STDIN_FILENO, &orig_termios);
@@ -19,7 +20,19 @@ void Terminal::set_raw_mode()
 }
 
 
-void Terminal::restore_orig_term()
+void Terminal::Controller::restore_orig_term() const
 {
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+}
+
+
+Terminal::Dimensions Terminal::Controller::get_term_dimensions()
+{
+    struct winsize ws;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
+
+    dimensions.height = ws.ws_row;
+    dimensions.width  = ws.ws_col;
+
+    return dimensions;
 }
