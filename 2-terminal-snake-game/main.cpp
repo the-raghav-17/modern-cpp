@@ -11,6 +11,9 @@ int main()
 
     auto dimensions = term.get_term_dimensions();
 
+    Point pos = {100, 10};
+    term.set_cursor_pos(pos);
+
     std::cout << "(" << dimensions.x
         << ", " << dimensions.y << ")\n";
 

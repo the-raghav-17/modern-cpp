@@ -1,6 +1,7 @@
 #include "terminal.h"
 #include "point.h"
 
+#include <string>
 #include <unistd.h>
 #include <sys/ioctl.h>
 
@@ -49,4 +50,17 @@ void Terminal::unhide_cursor() const
 {
     char buf[] = "\x1b[?25h";
     write(STDOUT_FILENO, buf, sizeof(buf));
+}
+
+
+void Terminal::set_cursor_pos(Point pos) const
+{
+    std::string cmd { "\x1b[" };
+    std::string x_pos { std::to_string(pos.x) };
+    std::string y_pos { std::to_string(pos.y) };
+
+    // \x1b[<y>;<x>H     -- reposition cursor
+    cmd += y_pos + ";" + x_pos + "H";
+
+    write(STDOUT_FILENO, cmd.c_str(), cmd.size());
 }

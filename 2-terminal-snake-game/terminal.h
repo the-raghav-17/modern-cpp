@@ -18,6 +18,7 @@ class Terminal
         void  hide_cursor() const;
         void  unhide_cursor() const;
         Point get_cursor_pos() const;
+        void  set_cursor_pos(Point pos) const;
 
     private:
         struct termios orig_termios {}; // term settings before setting raw mode
