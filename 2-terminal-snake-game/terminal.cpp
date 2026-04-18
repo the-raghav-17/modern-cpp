@@ -1,10 +1,11 @@
 #include "terminal.h"
+#include "point.h"
 
 #include <unistd.h>
 #include <sys/ioctl.h>
 
 
-void Terminal::Controller::set_raw_mode()
+void Terminal::set_raw_mode()
 {
     // Store current terminal settings first
     tcgetattr(STDIN_FILENO, &orig_termios);
@@ -20,19 +21,32 @@ void Terminal::Controller::set_raw_mode()
 }
 
 
-void Terminal::Controller::restore_orig_term() const
+void Terminal::restore_orig_term()
 {
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+    curr_termios = orig_termios;
 }
 
 
-Terminal::Dimensions Terminal::Controller::get_term_dimensions()
+Point Terminal::get_term_dimensions() const
 {
     struct winsize ws;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
 
-    dimensions.height = ws.ws_row;
-    dimensions.width  = ws.ws_col;
-
+    Point dimensions = {ws.ws_row, ws.ws_col};
     return dimensions;
+}
+
+
+void Terminal::hide_cursor() const
+{
+    char buf[] = "\x1b[?25l";
+    write(STDOUT_FILENO, buf, sizeof(buf));
+}
+
+
+void Terminal::unhide_cursor() const
+{
+    char buf[] = "\x1b[?25h";
+    write(STDOUT_FILENO, buf, sizeof(buf));
 }

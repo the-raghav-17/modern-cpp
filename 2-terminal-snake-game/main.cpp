@@ -5,14 +5,15 @@
 
 int main()
 {
-    Terminal::Controller term{};
+    Terminal term{};
     term.set_raw_mode();
+    term.hide_cursor();
 
-    Terminal::Dimensions dimensions =
-        term.get_term_dimensions();
+    auto dimensions = term.get_term_dimensions();
 
-    std::cout << "(" << dimensions.height
-        << ", " << dimensions.width << ")\n";
+    std::cout << "(" << dimensions.x
+        << ", " << dimensions.y << ")\n";
 
+    term.unhide_cursor();
     term.restore_orig_term();
 }
