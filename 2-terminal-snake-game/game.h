@@ -11,11 +11,9 @@ public:
     void start();
 
 private:
-    Terminal term{};    // holds terminal states
+    Terminal m_term{};    // holds terminal states
     void set_terminal();
     void reset_terminal();
-
-
 };
 
 

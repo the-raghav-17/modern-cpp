@@ -25,8 +25,8 @@ class Terminal
         void print(const std::string str, const Point pos) const;
 
     private:
-        struct termios orig_termios {}; // term settings before setting raw mode
-        struct termios curr_termios {}; // current term settings
+        struct termios m_orig_termios {}; // term settings before setting raw mode
+        struct termios m_curr_termios {}; // current term settings
 };
 
 

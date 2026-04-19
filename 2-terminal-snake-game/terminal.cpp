@@ -9,23 +9,23 @@
 void Terminal::set_raw_mode()
 {
     // Store current terminal settings first
-    tcgetattr(STDIN_FILENO, &orig_termios);
-    curr_termios = orig_termios;
+    tcgetattr(STDIN_FILENO, &m_orig_termios);
+    m_curr_termios = m_orig_termios;
 
     // Disable terminal settings
-    curr_termios.c_lflag &= ~(ECHO | ICANON /*| ISIG*/ | IEXTEN | CS8);
-    curr_termios.c_iflag &= ~(IXON | ICRNL | BRKINT | INPCK | ISTRIP);
-    curr_termios.c_oflag &= ~(OPOST);
-    curr_termios.c_cflag |= (CS8);
+    m_curr_termios.c_lflag &= ~(ECHO | ICANON /*| ISIG*/ | IEXTEN | CS8);
+    m_curr_termios.c_iflag &= ~(IXON | ICRNL | BRKINT | INPCK | ISTRIP);
+    m_curr_termios.c_oflag &= ~(OPOST);
+    m_curr_termios.c_cflag |= (CS8);
 
-    tcsetattr(STDIN_FILENO, TCSAFLUSH, &curr_termios); //set new terminal attributes
+    tcsetattr(STDIN_FILENO, TCSAFLUSH, &m_curr_termios); //set new terminal attributes
 }
 
 
 void Terminal::restore_orig_term()
 {
-    tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
-    curr_termios = orig_termios;
+    tcsetattr(STDIN_FILENO, TCSAFLUSH, &m_orig_termios);
+    m_curr_termios = m_orig_termios;
 }
 
 
@@ -56,8 +56,8 @@ void Terminal::unhide_cursor() const
 void Terminal::set_cursor_pos(Point pos) const
 {
     std::string cmd { "\x1b[" };
-    std::string x_pos { std::to_string(pos.x) };
-    std::string y_pos { std::to_string(pos.y) };
+    std::string x_pos { std::to_string(pos.m_x) };
+    std::string y_pos { std::to_string(pos.m_y) };
 
     // \x1b[<y>;<x>H     -- reposition cursor
     cmd += y_pos + ";" + x_pos + "H";
