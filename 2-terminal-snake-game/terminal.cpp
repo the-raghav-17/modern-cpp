@@ -64,3 +64,17 @@ void Terminal::set_cursor_pos(Point pos) const
 
     write(STDOUT_FILENO, cmd.c_str(), cmd.size());
 }
+
+
+void Terminal::clear_screen() const
+{
+    char buf[] = "\x1b[2J";
+    write(STDOUT_FILENO, buf, sizeof(buf));
+}
+
+
+void Terminal::print(const std::string str, const Point pos) const
+{
+    set_cursor_pos(pos);
+    write(STDOUT_FILENO, str.c_str(), str.size());
+}
