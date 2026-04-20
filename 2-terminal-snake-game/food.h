@@ -12,7 +12,7 @@ public:
         m_boundaries { boundaries }
     {}
 
-    void generate_food();  // generates a position for food b/w boundaries
+    Point generate_food();  // generates and returns a position for food b/w boundaries
 
 private:
     Point m_food_pos {};

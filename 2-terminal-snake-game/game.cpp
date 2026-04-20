@@ -1,19 +1,23 @@
 #include "game.h"
 #include "terminal.h"
+#include "food.h"
 
 #include <unistd.h>
+#include <iostream>
 
 
 void Game::start()
 {
     set_terminal();
+    Point term_dimensions { m_term.get_term_dimensions() };
+    Food food{term_dimensions};
 
-    int i { 0 };
     while (true) {
         m_term.clear_screen();
-        Point pos { 10, i };
-        m_term.print("0", pos);
-        i++;
+
+        Point food_pos { food.generate_food() };
+        m_term.print("0", food_pos);
+
         sleep(1);
     }
 
