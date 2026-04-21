@@ -5,6 +5,7 @@
 
 int main()
 {
+    // simple test
     Game game{};
     game.start();
 }
