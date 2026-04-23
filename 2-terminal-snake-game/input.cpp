@@ -47,11 +47,6 @@ Input_type Input::char_to_iptype(std::vector<char> ch)
     }
 
     if (ch_0 == '\033') {
-        if (ch_1 == '\0' && ch_2 == '\0') {
-            // escape key
-            return Input_type::QUIT;
-        }
-
         if (ch_1 == '[') {
             if (ch_2 == 'A') {
                 // Up arrow pressed
@@ -73,6 +68,8 @@ Input_type Input::char_to_iptype(std::vector<char> ch)
                 return Input_type::LEFT_ARROW;
             }
         }
+
+        return Input_type::QUIT;
     }
 
     return Input_type::INVALID;
