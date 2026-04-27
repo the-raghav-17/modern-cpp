@@ -3,7 +3,9 @@
 
 
 #include <vector>
+#include <array>
 #include <unistd.h>
+#include <thread>
 
 
 Input::Input(Terminal &term)
@@ -12,58 +14,51 @@ Input::Input(Terminal &term)
 }
 
 
+// Will read input and return an object representing the pressed key
 Input_type Input::read_input()
 {
-    std::vector<char> ch(3, '\0');
-
-    int nbytes { read(STDIN_FILENO, &ch[0], ch.size()) };
-    if (nbytes == -1) {
-        // Timeout
+    std::array<char, 3> buf {};
+    int nbytes = read(STDIN_FILENO, &buf[0], buf.size());
+    if (nbytes == 0) {
+        // read timed out
         return Input_type::INVALID;
     }
 
-    // Some key was pressed; determine it.
-    Input_type ip = char_to_iptype(ch);
-
-    // TODO: Logic for waiting
-    return ip;
+    const auto ip_type { char_to_iptype(buf) };
+    return ip_type;
 }
 
 
-Input_type Input::char_to_iptype(std::vector<char> ch)
+Input_type Input::char_to_iptype(std::array<char, 3> &ch)
 {
-    char ch_0 = ch.at(0);
-    char ch_1 = ch.at(1);
-    char ch_2 = ch.at(2);
-
-    if (ch_0 == 'p') {
+    if (ch[0] == 'p') {
         // p key
         return Input_type::PAUSE;
     }
 
-    if (ch_0 == 'q') {
+    if (ch[0] == 'q') {
         // q key
         return Input_type::QUIT;
     }
 
-    if (ch_0 == '\033') {
-        if (ch_1 == '[') {
-            if (ch_2 == 'A') {
+    if (ch[0] == '\033') {
+        if (ch[1] == '[') {
+            if (ch[2] == 'A') {
                 // Up arrow pressed
                 return Input_type::UP_ARROW;
             }
 
-            if (ch_2 == 'B') {
+            if (ch[2] == 'B') {
                 // Down arrow pressed
                 return Input_type::DOWN_ARROW;
             }
 
-            if (ch_2 == 'C') {
+            if (ch[2] == 'C') {
                 // Right arrow pressed
                 return Input_type::RIGHT_ARROW;
             }
 
-            if (ch_2 == 'D') {
+            if (ch[2] == 'D') {
                 // Left arrow pressed
                 return Input_type::LEFT_ARROW;
             }

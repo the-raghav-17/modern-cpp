@@ -25,9 +25,9 @@ public:
 
 private:
     int m_vtime { 5 };  // 5 deciseconds
-    int m_vmin { 1 };   // 1 character
+    int m_vmin { 0 };   // 0 character
 
-    Input_type char_to_iptype(std::vector<char> ch);
+    Input_type char_to_iptype(std::array<char, 3> &ch);
 };
 
 
