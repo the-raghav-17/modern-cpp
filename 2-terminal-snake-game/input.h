@@ -24,7 +24,7 @@ public:
     Input_type read_input();
 
 private:
-    int m_vtime { 5 };  // 5 deciseconds
+    int m_vtime { 7 };  // 0.5 deciseconds
     int m_vmin { 0 };   // 0 character
 
     Input_type char_to_iptype(std::array<char, 3> &ch);

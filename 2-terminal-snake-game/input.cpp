@@ -1,30 +1,54 @@
 #include "input.h"
 #include "terminal.h"
+#include "game.h"
 
-
+#include <chrono>
 #include <vector>
 #include <array>
 #include <unistd.h>
 #include <thread>
+#include <iostream>
 
 
 Input::Input(Terminal &term)
 {
-    term.set_read(m_vtime, m_vmin);
+    // convert input delay from second to decisecond
+    auto vtime { Game::input_delay.count() * 10 };
+
+    // Set timeout of read to vtime and min chars read to m_vmin
+    term.set_read(vtime, m_vmin);
 }
 
 
 // Will read input and return an object representing the pressed key
 Input_type Input::read_input()
 {
+    using Time_point = std::chrono::steady_clock::time_point;
+    using Clock      = std::chrono::steady_clock;
+    using Duration   = std::chrono::duration<double>;
+
     std::array<char, 3> buf {};
-    int nbytes = read(STDIN_FILENO, &buf[0], buf.size());
+
+    Time_point start { Clock::now() };
+    const ssize_t nbytes = read(STDIN_FILENO, &buf[0], buf.size());
+
     if (nbytes == 0) {
         // read timed out
         return Input_type::INVALID;
     }
 
     const auto ip_type { char_to_iptype(buf) };
+    if (ip_type == Input_type::PAUSE || ip_type == Input_type::QUIT) {
+        return ip_type;
+    }
+
+    Time_point end { Clock::now() };
+    Duration elapsed { end - start };
+    if (elapsed.count() < Game::input_delay.count()) {
+        auto sleep_duration { Game::input_delay - elapsed };
+        std::this_thread::sleep_for(sleep_duration);
+    }
+
     return ip_type;
 }
 

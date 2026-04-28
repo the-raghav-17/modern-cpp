@@ -5,6 +5,11 @@
 
 #include <unistd.h>
 #include <iostream>
+#include <chrono>
+
+
+// Input delay of 0.7 sec or 7 decisecond (for read syscall)
+const std::chrono::duration<double> Game::input_delay { 0.7 };
 
 
 void Game::start()
