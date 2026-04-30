@@ -23,9 +23,13 @@ Input::Input(Terminal &term)
 // Will read input and return an object representing the pressed key
 Input_type Input::read_input()
 {
+
     using Time_point = std::chrono::steady_clock::time_point;
     using Clock      = std::chrono::steady_clock;
     using Duration   = std::chrono::duration<double>;
+
+    // Clear any pending data
+    tcflush(STDIN_FILENO, TCIFLUSH);
 
     std::array<char, 3> buf {};
 
