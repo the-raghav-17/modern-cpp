@@ -1,5 +1,6 @@
 #include "terminal.h"
 #include "point.h"
+#include "region.h"
 
 #include <string>
 #include <unistd.h>
@@ -39,12 +40,15 @@ void Terminal::restore_orig_term()
 }
 
 
-Point Terminal::get_term_dimensions() const
+Region Terminal::get_term_dimensions() const
 {
     struct winsize ws;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
 
-    Point dimensions { ws.ws_col, ws.ws_row };
+    Point top_left { 0, 0 };
+    Point bottom_right { ws.ws_col, ws.ws_row };
+    Region dimensions { top_left, bottom_right };
+
     return dimensions;
 }
 

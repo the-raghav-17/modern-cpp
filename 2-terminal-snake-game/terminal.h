@@ -3,6 +3,7 @@
 
 
 #include "point.h"
+#include "region.h"
 
 #include <termios.h>
 #include <string>
@@ -15,7 +16,7 @@ class Terminal
         void  set_read(int vtime, int vmin);
         void  restore_orig_term();
 
-        Point get_term_dimensions() const;   // returns (height, width) of term. window
+        Region get_term_dimensions() const;
 
         void  hide_cursor() const;
         void  unhide_cursor() const;
