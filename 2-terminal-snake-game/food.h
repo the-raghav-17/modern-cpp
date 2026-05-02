@@ -9,8 +9,8 @@
 class Food
 {
 public:
-    Food(const Region region):
-        m_region { region }
+    Food(const Region game_region):
+        m_region { game_region }
     {}
 
     Point generate_food();  // generates and returns a position for food in the region
