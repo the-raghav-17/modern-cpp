@@ -12,9 +12,25 @@
 const std::chrono::duration<double> Game::input_delay { 0.7 };
 
 
+Game::Game()
+{
+    m_term.set_raw_mode();
+    m_term.hide_cursor();
+}
+
+
+Game::~Game()
+{
+    m_term.restore_orig_term();
+    m_term.unhide_cursor();
+}
+
+
 void Game::start()
 {
-    set_terminal();
+    // for now whole terminal is for gameplay
+    m_game_region = m_term.get_term_dimensions();
+
     Input input { m_term };
 
     while (true) {
@@ -59,20 +75,4 @@ void Game::start()
 
         std::cout << action << '\n';
     }
-
-    reset_terminal();
-}
-
-
-void Game::set_terminal()
-{
-    m_term.set_raw_mode();
-    m_term.hide_cursor();
-}
-
-
-void Game::reset_terminal()
-{
-    m_term.restore_orig_term();
-    m_term.unhide_cursor();
 }
