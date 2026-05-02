@@ -10,13 +10,14 @@
 #include <iostream>
 
 
-Input::Input(Terminal &term)
+Input::Input(Terminal &input_term)
 {
     // convert input delay from second to decisecond
     auto vtime { Game::input_delay.count() * 10 };
+    int vmin { 0 };
 
-    // Set timeout of read to vtime and min chars read to m_vmin
-    term.set_read(vtime, m_vmin);
+    // Set timeout of read to vtime and min chars read to vmin
+    input_term.set_read(vtime, vmin);
 }
 
 

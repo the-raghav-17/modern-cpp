@@ -20,13 +20,10 @@ enum class Input_type
 class Input
 {
 public:
-    Input(Terminal &term);
+    Input(Terminal &input_term);
     Input_type read_input();
 
 private:
-    int m_vtime { 7 };  // 0.5 deciseconds
-    int m_vmin { 0 };   // 0 character
-
     Input_type char_to_iptype(std::array<char, 3> &ch);
 };
 
