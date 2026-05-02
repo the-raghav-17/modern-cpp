@@ -3,20 +3,21 @@
 
 
 #include "point.h"
+#include "region.h"
 
 
 class Food
 {
 public:
-    Food(const Point boundaries):
-        m_boundaries { boundaries }
+    Food(const Region region):
+        m_region { region }
     {}
 
-    Point generate_food();  // generates and returns a position for food b/w boundaries
+    Point generate_food();  // generates and returns a position for food in the region
 
 private:
     Point m_food_pos {};
-    Point m_boundaries {};
+    Region m_region {};
 };
 
 
