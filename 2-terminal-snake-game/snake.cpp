@@ -56,11 +56,21 @@ void Snake::draw(const Terminal &term) const
 
 void Snake::read_input(const Input_type &ip)
 {
-    if (ip != Input_type::PAUSE && ip != Input_type::QUIT
-            && ip != Input_type::INVALID) {
+    assert(ip != Input_type::INVALID 
+            && ip != Input_type::QUIT
+            && ip != Input_type::PAUSE);
+
+    Move_direction new_dir { ip_to_move(ip) };
+
+    // If new direction is opposite of current direction, don't change the current
+    // direction as it will look weird
+    if (!(new_dir == Move_direction::UP && m_direction == Move_direction::DOWN)
+     && !(new_dir == Move_direction::DOWN && m_direction == Move_direction::UP)
+     && !(new_dir == Move_direction::LEFT && m_direction == Move_direction::RIGHT)
+     && !(new_dir == Move_direction::RIGHT && m_direction == Move_direction::LEFT)) {
+
         m_direction = ip_to_move(ip);
     }
-    move();
 }
 
 

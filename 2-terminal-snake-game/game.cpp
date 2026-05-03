@@ -39,7 +39,15 @@ void Game::start()
     while (true) {
         snake.draw(m_term);
         Input_type ip { input.read_input() };
-        snake.read_input(ip);
+
+        if (ip != Input_type::QUIT
+            && ip != Input_type::PAUSE
+            && ip != Input_type::INVALID) {
+
+            snake.read_input(ip);
+        }
+
+        snake.move();
         m_term.clear_screen();
     }
 }
