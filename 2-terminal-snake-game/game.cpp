@@ -36,6 +36,7 @@ void Game::start()
     Input input { m_term };
     Snake snake { m_game_region };
 
+    m_term.clear_screen();
     while (true) {
         snake.draw(m_term);
         Input_type ip { input.read_input() };

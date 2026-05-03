@@ -74,36 +74,45 @@ void Snake::read_input(const Input_type &ip)
 }
 
 
-void Snake::move()
+Head_state Snake::move()
 {
-    int x { m_body.front().m_x };
-    int y { m_body.front().m_y };
+    int head_x { m_body.front().m_x };
+    int head_y { m_body.front().m_y };
 
     switch (m_direction) {
         case Move_direction::UP:
-            y -= 1;
+            head_y -= 1;
             break;
 
         case Move_direction::DOWN:
-            y += 1;
+            head_y += 1;
             break;
 
         case Move_direction::LEFT:
-            x -= 1;
+            head_x -= 1;
             break;
 
         case Move_direction::RIGHT:
-            x += 1;
+            head_x += 1;
             break;
     }
 
-    Point new_head { x, y };
+    Point new_head { head_x, head_y };
 
+    if (head_collides_with_body(new_head)) {
+        return Head_state::BODY_COLLISION;
+    }
+    if (head_collides_with_wall(new_head)) {
+        return Head_state::WALL_COLLISION;
+    }
+
+    // else update the rest of body positions
     for (size_t i = m_body.size() - 1; i > 0; i--) {
         m_body.at(i) = m_body.at(i - 1);
     }
 
     m_body.front() = new_head;
+    return Head_state::SAFE;
 }
 
 
@@ -126,4 +135,36 @@ Move_direction Snake::ip_to_move(const Input_type &ip)
         case Input_type::RIGHT_ARROW:
             return Move_direction::RIGHT;
     }
+}
+
+
+bool Snake::head_collides_with_body(const Point &new_head)
+{
+    for (size_t i = 1; i < m_body.size(); i++) {
+        if (m_body.at(i) == new_head) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+bool Snake::head_collides_with_wall(const Point &new_head)
+{
+    // Game boundary
+    int min_x { m_region.top_left.m_x };
+    int max_x { m_region.bottom_right.m_x };
+    int min_y { m_region.top_left.m_y };
+    int max_y { m_region.bottom_right.m_y };
+
+    int head_x { new_head.m_x };
+    int head_y { new_head.m_y };
+
+    if (head_x <= min_x || head_x >= max_x
+        || head_y <= min_y || head_y >= max_y) {
+        return true;
+    }
+
+    return false;
 }
