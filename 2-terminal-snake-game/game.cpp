@@ -11,7 +11,7 @@
 
 
 // Input delay of 0.7 sec or 7 decisecond (for read syscall)
-const std::chrono::duration<double> Game::input_delay { 0.7 };
+const std::chrono::duration<double> Game::input_delay { 0.5 };
 
 
 Game::Game()
@@ -52,14 +52,14 @@ void Game::start()
             snake.read_input(ip);
         }
 
-        Head_state head_state { snake.move(food_pos) };
-        if (head_state != Head_state::SAFE) {
-            if (head_state == Head_state::BODY_COLLISION
-                || head_state == Head_state::WALL_COLLISION) {
+        Snake_state snake_state { snake.move(food_pos) };
+        if (snake_state != Snake_state::NORMAL) {
+            if (snake_state == Snake_state::BODY_COLLISION
+                || snake_state == Snake_state::WALL_COLLISION) {
                 break;
             }
 
-            if (head_state == Head_state::FOOD_COLLISION) {
+            if (snake_state == Snake_state::FOOD_COLLISION) {
                 // Food is eaten, generate new food
                 food_pos = food.generate_food();
             }

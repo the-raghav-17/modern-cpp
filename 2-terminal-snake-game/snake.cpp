@@ -74,7 +74,7 @@ void Snake::read_input(const Input_type &ip)
 }
 
 
-Head_state Snake::move(const Point &food_pos)
+Snake_state Snake::move(const Point &food_pos)
 {
     int head_x { m_body.front().m_x };
     int head_y { m_body.front().m_y };
@@ -100,10 +100,14 @@ Head_state Snake::move(const Point &food_pos)
     Point new_head { head_x, head_y };
 
     if (head_collides_with_body(new_head)) {
-        return Head_state::BODY_COLLISION;
+        return Snake_state::BODY_COLLISION;
     }
     if (head_collides_with_wall(new_head)) {
-        return Head_state::WALL_COLLISION;
+        return Snake_state::WALL_COLLISION;
+    }
+
+    if (food_pos == new_head) {
+        m_body.push_back({0, 0}); // add a dummy point
     }
 
     // else update the rest of body positions
@@ -113,9 +117,9 @@ Head_state Snake::move(const Point &food_pos)
 
     m_body.front() = new_head;
     if (new_head == food_pos) {
-        return Head_state::FOOD_COLLISION;
+        return Snake_state::FOOD_COLLISION;
     }
-    return Head_state::SAFE;
+    return Snake_state::NORMAL;
 }
 
 
