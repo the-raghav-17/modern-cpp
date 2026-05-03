@@ -8,8 +8,6 @@ Snake::Snake(const Region game_region):
     m_region { game_region },            // region where snake moves
     m_direction { Move_direction::UP }   // default move direction
 {
-    // TODO: Set current position of snake to the center
-
     Point top_left { m_region.top_left };
     Point bottom_right { m_region.bottom_right };
 
@@ -44,8 +42,8 @@ void Snake::read_input(const Input_type &ip)
 
 void Snake::move()
 {
-    int x { m_body.at(0).m_x };
-    int y { m_body.at(0).m_y };
+    int x { m_body.front().m_x };
+    int y { m_body.front().m_y };
 
     switch (m_direction) {
         case Move_direction::UP:
@@ -66,11 +64,12 @@ void Snake::move()
     }
 
     Point new_head { x, y };
-    m_body.front() = new_head;
 
-    for (size_t i = 1; i < m_body.size(); i++) {
+    for (size_t i = m_body.size() - 1; i > 0; i--) {
         m_body.at(i) = m_body.at(i - 1);
     }
+
+    m_body.front() = new_head;
 }
 
 

@@ -29,8 +29,8 @@ private:
 
     std::vector<Point> m_body {};    // body of the snake, head at first, tail at end
     Move_direction m_direction {};   // direction in which snake is moving
+
     void move();
-    
     Move_direction ip_to_move(const Input_type &ip);
 };
 
