@@ -24,8 +24,32 @@ Snake::Snake(const Region game_region):
 
 void Snake::draw(const Terminal &term) const
 {
-    for (auto body_part : m_body) {
-        term.print("0", body_part);
+    std::string head_char { "" };
+    
+    switch (m_direction) {
+        case Move_direction::UP:
+            head_char += "V";
+            break;
+
+        case Move_direction::DOWN:
+            head_char += "^";
+            break;
+
+        case Move_direction::LEFT:
+            head_char += ">";
+            break;
+
+        case Move_direction::RIGHT:
+            head_char += "<";
+            break;
+    }
+
+    // Draw the head
+    term.print(head_char, m_body.front());
+
+    // Draw rest of the body
+    for (size_t i = 1; i < m_body.size(); i++) {
+        term.print("0", m_body.at(i));
     }
 }
 
