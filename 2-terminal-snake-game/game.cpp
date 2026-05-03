@@ -35,10 +35,14 @@ void Game::start()
 
     Input input { m_term };
     Snake snake { m_game_region };
+    Food food { m_game_region };
 
+    Point food_pos { food.generate_food() };
     m_term.clear_screen();
     while (true) {
+        food.draw(m_term);
         snake.draw(m_term);
+
         Input_type ip { input.read_input() };
 
         if (ip != Input_type::QUIT
@@ -48,7 +52,18 @@ void Game::start()
             snake.read_input(ip);
         }
 
-        snake.move();
+        Head_state head_state { snake.move(food_pos) };
+        if (head_state != Head_state::SAFE) {
+            if (head_state == Head_state::BODY_COLLISION
+                || head_state == Head_state::WALL_COLLISION) {
+                break;
+            }
+
+            if (head_state == Head_state::FOOD_COLLISION) {
+                // Food is eaten, generate new food
+                food_pos = food.generate_food();
+            }
+        }
         m_term.clear_screen();
     }
 }

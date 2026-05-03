@@ -74,7 +74,7 @@ void Snake::read_input(const Input_type &ip)
 }
 
 
-Head_state Snake::move()
+Head_state Snake::move(const Point &food_pos)
 {
     int head_x { m_body.front().m_x };
     int head_y { m_body.front().m_y };
@@ -112,6 +112,9 @@ Head_state Snake::move()
     }
 
     m_body.front() = new_head;
+    if (new_head == food_pos) {
+        return Head_state::FOOD_COLLISION;
+    }
     return Head_state::SAFE;
 }
 

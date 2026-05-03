@@ -18,7 +18,7 @@ enum class Move_direction
 // Used to find whether head is safe or collided
 enum class Head_state
 {
-    SAFE, WALL_COLLISION, BODY_COLLISION,
+    SAFE, WALL_COLLISION, BODY_COLLISION, FOOD_COLLISION,
 };
 
 
@@ -28,7 +28,7 @@ public:
     Snake(const Region game_region);
     
     void read_input(const Input_type &ip);
-    Head_state move();
+    Head_state move(const Point &food_pos);
     void draw(const Terminal &term) const;
 
 private:

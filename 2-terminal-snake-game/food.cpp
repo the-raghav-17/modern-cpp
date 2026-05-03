@@ -1,5 +1,6 @@
 #include "food.h"
 #include "util.h"
+#include "terminal.h"
 
 
 Point Food::generate_food()
@@ -12,4 +13,10 @@ Point Food::generate_food()
     m_food_pos.m_y = Util::Random_int_generator::generate(top_left.m_y, bottom_right.m_y);
 
     return m_food_pos;
+}
+
+
+void Food::draw(Terminal &term)
+{
+    term.print("X", m_food_pos);
 }

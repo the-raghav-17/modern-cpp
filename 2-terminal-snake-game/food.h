@@ -4,6 +4,7 @@
 
 #include "point.h"
 #include "region.h"
+#include "terminal.h"
 
 
 class Food
@@ -14,6 +15,7 @@ public:
     {}
 
     Point generate_food();  // generates and returns a position for food in the region
+    void draw(Terminal &term);
 
 private:
     Point m_food_pos {};
