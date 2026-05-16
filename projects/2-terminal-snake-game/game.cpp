@@ -11,7 +11,7 @@
 
 
 // Input delay of 0.7 sec or 7 decisecond (for read syscall)
-const std::chrono::duration<double> Game::input_delay { 0.5 };
+const std::chrono::duration<double> Game::input_delay { 0.1 };
 
 
 Game::Game()
