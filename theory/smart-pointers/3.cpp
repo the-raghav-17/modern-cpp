@@ -4,10 +4,13 @@
 
 std::unique_ptr<int> fun()
 {
+    // Ye hai aam zindagi
+    //
     // int *iptr { new int };
     // *iptr = 100;
     // return iptr;
 
+    // Ye hai Mentos zindagi
     std::unique_ptr<int> iptr{ new int };
     *iptr = 100;
     return iptr;
