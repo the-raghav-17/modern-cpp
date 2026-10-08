@@ -14,7 +14,7 @@ Thread_vector::~Thread_vector()
 }
 
 
-void Thread_vector::push(std::thread&& thread)
+void Thread_vector::push_back(std::thread&& thread) noexcept
 {
-    m_vector.push_back(thread);
+    m_vector.push_back(std::move(thread));
 }

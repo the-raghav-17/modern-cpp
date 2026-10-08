@@ -23,7 +23,7 @@ public:
     /**
      * Push the thread into the vector
      */
-    void push_back(std::thread&& thread) const noexcept;
+    void push_back(std::thread&& thread) noexcept;
 
 private:
     std::vector<std::thread> m_vector{};

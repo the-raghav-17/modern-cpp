@@ -15,7 +15,7 @@ public:
     void add_task(std::function<void()> task) noexcept;
 
 private:
-    static constexpr int THREAD_COUNT{ 10 };
+    static constexpr int THREAD_COUNT{ 3 };
 
     Thread_vector                           m_threads{};
     Threadsafe_queue<std::function<void()>> m_task_queue{};
