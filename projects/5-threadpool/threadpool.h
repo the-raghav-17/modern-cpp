@@ -75,8 +75,9 @@ Threadpool::add_task(F&& f, Args&&... args)
     // The packaged_task object now acts as the
     // callable with return type void. Now wrap
     // this packaged_task in Function_wrapper
-    Function_wrapper task{ packaged_task };
-    m_tasks_queue.push(task);
+
+    Function_wrapper task{ std::move(packaged_task) };
+    m_tasks_queue.push(std::move(task));
     
     return future;
 }
